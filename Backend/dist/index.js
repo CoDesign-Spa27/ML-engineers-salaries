@@ -6,15 +6,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = require("dotenv");
 const fs_1 = __importDefault(require("fs"));
+const cors_1 = __importDefault(require("cors"));
 const path_1 = __importDefault(require("path"));
 const generative_ai_1 = require("@google/generative-ai");
 const groq_sdk_1 = __importDefault(require("groq-sdk"));
 (0, dotenv_1.config)();
 const app = (0, express_1.default)();
 const port = 3000;
+app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 const groq = new groq_sdk_1.default({ apiKey: process.env.GROQ_API_KEY });
-const genAI = new generative_ai_1.GoogleGenerativeAI(process.env.GENERATIVE_AI_API_KEY);
+const genAI = new generative_ai_1.GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 // Initialize data store
 let dataStore = [];
 // Function to get embeddings using Gemini
@@ -83,7 +85,7 @@ async function generateResponse(message, context) {
   Context (each line is a JSON object representing a data point):
   ${contextStr}
   
-  Please provide a detailed and insightful answer based on the given context and your understanding of data analysis. Use specific data points from the context when relevant.
+  Please provide a detailed but in short paragraph and insightful answer based on the given context and your understanding of data analysis. Use specific data points from the context when relevant.
   `;
     try {
         const model = await groq.chat.completions.create({
@@ -95,7 +97,7 @@ async function generateResponse(message, context) {
                 },
                 {
                     role: "user",
-                    content: prompt, // Passing the prompt from the user
+                    content: prompt,
                 },
             ],
         });
@@ -123,7 +125,7 @@ app.post("/ask", async (req, res) => {
         console.error("Error generating insight:", error);
         res
             .status(500)
-            .json({ error: "An error occurred while generating the insight" });
+            .json({ error: "An error occurred while generating the insight" + error });
     }
 });
 app.listen(port, () => {

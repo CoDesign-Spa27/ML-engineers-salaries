@@ -21,7 +21,7 @@ const Chat: React.FC = () => {
       const userMessage = message;
       setChatHistory([...chatHistory, { user: userMessage, ai: [] }]);
 
-      const response = await axios.post("http://localhost:3000/ask", {
+      const response = await axios.post("https://ml-engineers-salaries.onrender.com/ask", {
         message: userMessage,
       });
       const aiResponse: string = response.data.response;
@@ -60,7 +60,7 @@ const Chat: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-neutral-950 p-4">
-      <div className="bg-neutral-900 shadow-md p-5 rounded-lg w-full max-w-5xl">
+      <div className="bg-neutral-900 shadow-md p-5 px-10 rounded-lg w-full max-w-5xl">
         <h1 className="text-2xl font-bold text-center text-gray-200 my-4">
           Ai Chat
         </h1>
@@ -112,6 +112,9 @@ const Chat: React.FC = () => {
           )}
         </div>
 
+          <p className="text-white text-sm text-center">
+            Note: It can take upto 1 minute to generate your response as it is a free web service.
+          </p>
         <form onSubmit={handleSubmit} className="p-4 items-center flex">
           <Textarea
             value={message}

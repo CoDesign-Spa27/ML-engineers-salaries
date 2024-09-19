@@ -19,9 +19,12 @@ export interface JobsByYear {
   count: number;
 }
 
-
 export function processSalaryData(data: SalaryData[]): ProcessedData[] {
-  const yearMap: { [year: number]: { totalSalary: number; jobCount: number } } = {};
+  const yearMap: { [year: number]:
+     { totalSalary: number;
+       jobCount: number } 
+    } =
+    {};
 
   data.forEach((item) => {
     if (!yearMap[item.work_year]) {
@@ -37,8 +40,6 @@ export function processSalaryData(data: SalaryData[]): ProcessedData[] {
     averageSalary: Math.round(totalSalary / jobCount),
   }));
 }
-
-
 
 export function JobsByYear(data: JobData[], year: number): JobsByYear[] {
   const jobMap: { [jobTitle: string]: number } = {};

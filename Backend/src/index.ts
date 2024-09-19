@@ -45,7 +45,7 @@ async function getEmbeddings(text: string): Promise<number[]> {
   }
 }
 
-// Function to index JSON data
+ 
 async function indexJSONData(data: any[]) {
   for (const item of data) {
     const text = Object.values(item).join(" ");
@@ -75,7 +75,7 @@ function cosineSimilarity(a: number[], b: number[]): number {
 }
 
 // Function for similarity search
-async function retrieveInfo(query: string, k: number = 3): Promise<any[]> {
+async function retrieveInfo(query: string, k: number ): Promise<any[]> {
   const queryEmbedding = await getEmbeddings(query);
   const similarities = dataStore.map((item) => ({
     item,
@@ -134,7 +134,7 @@ app.post("/ask", async (req, res) => {
   }
 
   try {
-    const similarData = await retrieveInfo(message);
+    const similarData = await retrieveInfo(message, 5);
     const response = await generateResponse(message, similarData);
     res.json({ response });
   } catch (error) {

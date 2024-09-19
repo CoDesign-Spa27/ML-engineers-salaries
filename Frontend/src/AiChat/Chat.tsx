@@ -21,9 +21,12 @@ const Chat: React.FC = () => {
       const userMessage = message;
       setChatHistory([...chatHistory, { user: userMessage, ai: [] }]);
 
-      const response = await axios.post("https://ml-engineers-salaries.onrender.com/ask", {
-        message: userMessage,
-      });
+      const response = await axios.post(
+        "https://ml-engineers-salaries.onrender.com/ask",
+        {
+          message: userMessage,
+        }
+      );
       const aiResponse: string = response.data.response;
 
       const words = aiResponse.split(" ").filter(Boolean);
@@ -112,9 +115,10 @@ const Chat: React.FC = () => {
           )}
         </div>
 
-          <p className="text-white text-sm text-center">
-            Note: It can take upto 1 minute to generate your response as it is a free web service.
-          </p>
+        <p className="text-white text-sm text-center">
+          Note: It can take upto 1 minute to generate your response as it is a
+          free web service.
+        </p>
         <form onSubmit={handleSubmit} className="p-4 items-center flex">
           <Textarea
             value={message}
@@ -147,7 +151,7 @@ export default Chat;
 
 function Loader() {
   return (
-    <div >
+    <div>
       <svg
         aria-hidden="true"
         className="w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-pink-500"
@@ -164,7 +168,6 @@ function Loader() {
           fill="currentFill"
         />
       </svg>
- 
     </div>
   );
 }
